@@ -1,6 +1,6 @@
 import { DeliveryContract } from 'gate-api';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getDeliveryApi } from '../../../../../services/GateApi';
+import { getDeliveryApi } from '../../../../../services/gate-api';
 import { Error, ErrorMessage } from '../../../../../types/Error';
 
 export default async function handler(

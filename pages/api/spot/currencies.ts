@@ -1,6 +1,6 @@
 import { Currency } from 'gate-api';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSpotApi } from '../../../services/GateApi';
+import { getSpotApi } from '../../../services/gate-api';
 import { Error, ErrorMessage } from '../../../types/Error';
 
 export default async function handler(
