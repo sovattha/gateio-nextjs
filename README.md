@@ -4,7 +4,9 @@ Simple wrapper around the Gate.io API to be run on Next.js.
 
 ## Reference
 
-https://github.com/gateio/gateapi-nodejs
+Gate.io API https://www.gate.io/docs/developers/apiv4/en/
+
+Gate.io SDK https://github.com/gateio/gateapi-nodejs
 
 ## Setup
 
