@@ -1,5 +1,5 @@
 {
-  "name": "gate-watcher",
+  "name": "gateio-nextjs",
   "private": true,
   "scripts": {
     "dev": "next dev",
