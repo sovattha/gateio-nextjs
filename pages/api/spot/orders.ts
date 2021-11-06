@@ -20,12 +20,12 @@ export default async function handler(
     const opts: ListOrdersOpts = {
       page: 1, // number | Page number
       limit: 100, // number | Maximum number of records to be returned. If `status` is `open`, maximum of `limit` is 100
-      account: ', // string | Specify operation account. Default to spot and margin account if not specified. Set to `cross_margin` to operate against margin account
+      account: '', // string | Specify operation account. Default to spot and margin account if not specified. Set to `cross_margin` to operate against margin account
       from, // number | Start timestamp of the query
       to, // number | Time range ending, default to current time
       side, // 'buy' | 'sell' | All bids or asks. Both included if not specified
     };
-    const authorization = req.headers.authorization || ';
+    const authorization = req.headers.authorization || '';
     const [key, secret] = authorization.split(':');
     const value = await getSpotApi(key, secret).listOrders(
       currencyPair,
