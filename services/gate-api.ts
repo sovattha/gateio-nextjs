@@ -4,7 +4,7 @@ export function getDeliveryApi() {
   const client = new ApiClient();
   return new DeliveryApi(client);
 }
-export function getSpotApi(key: string, secret: string) {
+export function getSpotApi(key?: string, secret?: string) {
   const client = new ApiClient();
   if (key && secret)
     client.setApiKeySecret(key, secret);
