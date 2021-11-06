@@ -4,11 +4,9 @@ export function getDeliveryApi() {
   const client = new ApiClient();
   return new DeliveryApi(client);
 }
-export function getSpotApi(authenticated?: boolean) {
-  if (!process.env.KEY || !process.env.SECRET)
-    throw new Error('KEY or SECRET environment variables must be specified');
+export function getSpotApi(key: string, secret: string) {
   const client = new ApiClient();
-  if (authenticated)
-    client.setApiKeySecret(process.env.KEY, process.env.SECRET);
+  if (key && secret)
+    client.setApiKeySecret(key, secret);
   return new SpotApi(client);
 }

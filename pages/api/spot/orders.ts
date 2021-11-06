@@ -18,7 +18,9 @@ export default async function handler(
       to: 1635329650, // number | Time range ending, default to current time
       side: 'sell' as 'sell' | 'buy', // 'buy' | 'sell' | All bids or asks. Both included if not specified
     };
-    const value = await getSpotApi(true).listOrders(currencyPair, status, opts);
+    const authorization = req.headers.authorization || '';
+    const [key, secret] = authorization.split(':');
+    const value = await getSpotApi(key, secret).listOrders(currencyPair, status, opts);
     res.status(200).json(value.body);
   } catch (err: any) {
     console.error(err);
