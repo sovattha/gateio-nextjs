@@ -19,7 +19,7 @@ const Home: NextPage = () => {
       url: `https://${process.env.NEXT_PUBLIC_ASTRA_DB_ID}-${process.env.NEXT_PUBLIC_ASTRA_DB_REGION}.apps.astra.datastax.com/api/rest/v2/namespaces/${process.env.NEXT_PUBLIC_ASTRA_DB_NAMESPACE}/collections/orders`,
       headers: {
         accept: 'application/json',
-        'X-Cassandra-Token': process.env.NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN,
+        'X-Cassandra-Token': process.env.NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN || '',
       },
     };
     axios(config)
@@ -53,7 +53,7 @@ const Home: NextPage = () => {
         <p className={styles.description}>Orders</p>
         <div className={styles.grid}>
           {orders?.map((order: any) => (
-            <div className={styles.card}>
+            <div className={styles.card} key={order.id}>
               <h2>{order.pair}</h2>
               <p>Price: {order.price}</p>
               <p>Amount: {order.amount}</p>
