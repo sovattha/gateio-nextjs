@@ -5,6 +5,13 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import styles from '../../styles/orders.module.css';
 
+type Order = {
+  pair: string;
+  amount: string;
+  price: string;
+  side: string;
+};
+
 const Home: NextPage = () => {
   const [pair, setPair] = useState('');
   const [amount, setAmount] = useState('');
@@ -12,7 +19,47 @@ const Home: NextPage = () => {
   const [side, setSide] = useState('buy');
   const [result, setResult] = useState({});
 
-  async function saveOrder() {
+  const [amount1, setAmount1] = useState(0);
+  const [pct1, setPct1] = useState(2);  
+  const [price1, setPrice1] = useState(0);
+  
+  const [amount2, setAmount2] = useState(0);
+  const [pct2, setPct2] = useState(4);  
+  const [price2, setPrice2] = useState(0);
+  
+  const [amount3, setAmount3] = useState(0);
+  const [pct3, setPct3] = useState(10);  
+  const [price3, setPrice3] = useState(0);
+    
+  const [amount4, setAmount4] = useState(0);
+  const [pct4, setPct4] = useState(0);  
+  const [price4, setPrice4] = useState(0);
+    
+  const [amount5, setAmount5] = useState(0);
+  const [pct5, setPct5] = useState(0);  
+  const [price5, setPrice5] = useState(0);
+  
+  const [orders, setOrders] = useState([] as Order[]);
+
+  useEffect(() => {
+    setAmount1(+amount * +pct1);
+    const newOrders = [];
+    newOrders.push({
+      pair,
+      amount,
+      price,
+      side,
+    });
+    setOrders(newOrders);
+  }, [pair, amount, price, side])
+
+  async function saveOrders() {
+    for (const newOrder of orders) {
+      saveOrder(newOrder);
+    }
+  }
+
+  async function saveOrder(order: Order) {
     const config: AxiosRequestConfig = {
       method: 'post',
       url: `https://${process.env.NEXT_PUBLIC_ASTRA_DB_ID}-${process.env.NEXT_PUBLIC_ASTRA_DB_REGION}.apps.astra.datastax.com/api/rest/v2/namespaces/${process.env.NEXT_PUBLIC_ASTRA_DB_NAMESPACE}/collections/orders`,
@@ -22,10 +69,10 @@ const Home: NextPage = () => {
         'Content-Type': 'application/json',
       },
       data: {
-        pair,
-        price,
-        amount,
-        side,
+        pair: order.pair,
+        price: order.price,
+        amount: order.amount,
+        side: order.side,
       },
     };
     axios(config)
@@ -70,12 +117,29 @@ const Home: NextPage = () => {
               <option value="sell">Sell</option>
             </select>
           </div>
-          <div className={styles.card} onClick={() => saveOrder()}>
+        </div>
+        <div className={styles.grid}>
+          <div className={styles.card}>
+            <h3>Target 1</h3>
+            {side === 'buy' ? 'sell' : 'buy'}{' '}
+            <label>Percentage:</label>
+            <input type="text" value={pct1} onChange={(event) => setPct1(+event.target.value)}  />
+            <label>Amount:</label>
+            <input type="text" value={amount1} onChange={(event) => setAmount1(+event.target.value)}  />
+            <label> @ Price:</label>
+            <input type="text" value={amount1} onChange={(event) => setPrice1(+event.target.value)}  />
+          </div>
+          <div className={styles.card} onClick={() => saveOrders()}>
             <button>Submit</button>
           </div>
           <div>
             <code>{JSON.stringify(result)}</code>
           </div>
+        </div>
+        <div className={styles.grid}>
+          {orders.map(order => <div className={styles.card}>
+            {order.side} {order.amount} {order.pair} @ {order.price}
+          </div>)}
         </div>
       </main>
 
