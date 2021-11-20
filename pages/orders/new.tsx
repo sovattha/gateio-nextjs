@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../styles/orders.module.css';
 
 type Order = {
@@ -13,36 +13,76 @@ type Order = {
 };
 
 const Home: NextPage = () => {
+  const [portfolioAmount, setPortfolioAmount] = useState(0);
+
   const [pair, setPair] = useState('');
   const [amount, setAmount] = useState('');
   const [price, setPrice] = useState('');
   const [side, setSide] = useState('buy');
   const [result, setResult] = useState({});
 
-  const [amount1, setAmount1] = useState(0);
-  const [pct1, setPct1] = useState(2);  
-  const [price1, setPrice1] = useState(0);
-  
-  const [amount2, setAmount2] = useState(0);
-  const [pct2, setPct2] = useState(4);  
-  const [price2, setPrice2] = useState(0);
-  
-  const [amount3, setAmount3] = useState(0);
-  const [pct3, setPct3] = useState(10);  
-  const [price3, setPrice3] = useState(0);
-    
-  const [amount4, setAmount4] = useState(0);
-  const [pct4, setPct4] = useState(0);  
-  const [price4, setPrice4] = useState(0);
-    
-  const [amount5, setAmount5] = useState(0);
-  const [pct5, setPct5] = useState(0);  
-  const [price5, setPrice5] = useState(0);
-  
+  const [amount1, setAmount1] = useState('');
+  const [pct1, setPct1] = useState('');
+  const [price1, setPrice1] = useState('');
+
+  const [amount2, setAmount2] = useState('');
+  const [pct2, setPct2] = useState('');
+  const [price2, setPrice2] = useState('');
+
+  const [amount3, setAmount3] = useState('');
+  const [pct3, setPct3] = useState('');
+  const [price3, setPrice3] = useState('');
+
+  const [amount4, setAmount4] = useState('');
+  const [pct4, setPct4] = useState('');
+  const [price4, setPrice4] = useState('');
+
+  const [amount5, setAmount5] = useState('');
+  const [pct5, setPct5] = useState('');
+  const [price5, setPrice5] = useState('');
+
   const [orders, setOrders] = useState([] as Order[]);
 
+  const PriceInput = (props: { price: string; setPrice(price: string): void }) => (
+    <>
+      <input type="text" value={props.price} onChange={(event) => props.setPrice(event.target.value)} />
+      <button onClick={(event) => props.setPrice(`${+price * 2}`)}>x2</button>
+      <button onClick={(event) => props.setPrice(`${+price * 4}`)}>x4</button>
+      <button onClick={(event) => props.setPrice(`${+price * 10}`)}>x10</button>
+      <button onClick={(event) => props.setPrice(`${+price * 20}`)}>x20</button>
+      <button onClick={(event) => props.setPrice(`${+price * 50}`)}>x50</button>
+    </>
+  );
+
+  const PercentageInput = (props: { pct: string; setPct: (pct: string) => void }) => (
+    <>
+      <input type="text" value={props.pct} onChange={(event) => props.setPct(event.target.value)} />
+      <button onClick={(event) => props.setPct(`25`)}>25%</button>
+      <button onClick={(event) => props.setPct(`50`)}>50%</button>
+      <button onClick={(event) => props.setPct(`75`)}>75%</button>
+      <button onClick={(event) => props.setPct(`100`)}>100%</button>
+    </>
+  );
+
   useEffect(() => {
-    setAmount1(+amount * +pct1);
+    if (amount && pct1) setAmount1(`${(+amount * +pct1) / 100}`);
+    if (amount && pct2) setAmount2(`${(+amount * +pct2) / 100}`);
+    if (amount && pct3) setAmount3(`${(+amount * +pct3) / 100}`);
+    if (amount && pct4) setAmount4(`${(+amount * +pct4) / 100}`);
+    if (amount && pct5) setAmount5(`${(+amount * +pct5) / 100}`);
+  }, [amount, pct1, pct2, pct3, pct4, pct5]);
+
+  useEffect(() => {
+    if (price) {
+      if (!price1) setPrice1(`${+price * 2}`);
+      if (!price2) setPrice2(`${+price * 4}`);
+      if (!price3) setPrice3(`${+price * 10}`);
+      if (!price4) setPrice4(`${+price * 20}`);
+      if (!pct1) setPct1('25');
+      if (!pct2) setPct2('25');
+      if (!pct3) setPct3('25');
+      if (!pct4) setPct4('25');
+    }
     const newOrders = [];
     newOrders.push({
       pair,
@@ -51,7 +91,52 @@ const Home: NextPage = () => {
       side,
     });
     setOrders(newOrders);
-  }, [pair, amount, price, side])
+  }, [amount, price]);
+
+  useEffect(() => {
+    const newOrders = Array(5);
+    if (side && pair && amount && price) {
+      newOrders[0] = {
+        side,
+        pair,
+        amount,
+        price,
+      };
+    }
+    if (side && pair && amount1 && price1) {
+      newOrders[1] = {
+        side: side === 'buy' ? 'sell' : 'buy',
+        pair,
+        amount: amount1,
+        price: price1,
+      };
+    }
+    if (side && pair && amount2 && price2) {
+      newOrders[2] = {
+        side: side === 'buy' ? 'sell' : 'buy',
+        pair,
+        amount: amount2,
+        price: price2,
+      };
+    }
+    if (side && pair && amount3 && price3) {
+      newOrders[3] = {
+        side: side === 'buy' ? 'sell' : 'buy',
+        pair,
+        amount: amount3,
+        price: price3,
+      };
+    }
+    if (side && pair && amount4 && price4) {
+      newOrders[4] = {
+        side: side === 'buy' ? 'sell' : 'buy',
+        pair,
+        amount: amount4,
+        price: price4,
+      };
+    }
+    setOrders(newOrders);
+  }, [side, pair, amount, price, amount1, price1, pct1, amount2, price2, pct2, amount3, price3, pct3, amount4, price4, pct4, amount5, price5, pct5]);
 
   async function saveOrders() {
     for (const newOrder of orders) {
@@ -60,6 +145,7 @@ const Home: NextPage = () => {
   }
 
   async function saveOrder(order: Order) {
+    console.log(order);
     const config: AxiosRequestConfig = {
       method: 'post',
       url: `https://${process.env.NEXT_PUBLIC_ASTRA_DB_ID}-${process.env.NEXT_PUBLIC_ASTRA_DB_REGION}.apps.astra.datastax.com/api/rest/v2/namespaces/${process.env.NEXT_PUBLIC_ASTRA_DB_NAMESPACE}/collections/orders`,
@@ -69,10 +155,10 @@ const Home: NextPage = () => {
         'Content-Type': 'application/json',
       },
       data: {
-        pair: order.pair,
-        price: order.price,
-        amount: order.amount,
-        side: order.side,
+        pair: order?.pair,
+        price: order?.price,
+        amount: order?.amount,
+        side: order?.side,
       },
     };
     axios(config)
@@ -98,48 +184,124 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>Gate.io trading bot</h1>
         <p className={styles.description}>Create a new order</p>
         <div className={styles.grid}>
-          <div className={styles.card}>
-            <label>Pair:</label>
-            <input type="text" value={pair} onChange={(event) => setPair(event.target.value)} />
-          </div>
-          <div className={styles.card}>
-            <label>Amount:</label>
-            <input type="text" value={amount} onChange={(event) => setAmount(event.target.value)} />
-          </div>
-          <div className={styles.card}>
-            <label>Price:</label>
-            <input type="text" value={price} onChange={(event) => setPrice(event.target.value)} />
-          </div>
-          <div className={styles.card}>
-            <label>Side:</label>
-            <select value={side} onChange={(event) => setSide(event.target.value)}>
-              <option value="buy">Buy</option>
-              <option value="sell">Sell</option>
-            </select>
-          </div>
+          Portfolio amount: <input type="text" value={portfolioAmount} onChange={(event) => setPortfolioAmount(+event.target.value)} />
+          <table>
+            <thead>
+              <tr>
+                <th>Side</th>
+                <th>Pair</th>
+                <th>Amount</th>
+                <th>Price</th>
+                <th>%</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <select value={side} onChange={(event) => setSide(event.target.value)}>
+                    <option value="buy">Buy</option>
+                    <option value="sell">Sell</option>
+                  </select>
+                </td>
+                <td>
+                  <input type="text" value={pair} onChange={(event) => setPair(event.target.value)} />
+                </td>
+                <td>
+                  <input type="text" value={amount} onChange={(event) => setAmount(event.target.value)} />
+                  <button onClick={(event) => setAmount(`${(portfolioAmount * 0.005) / +price}`)}>0.5%</button>
+                  <button onClick={(event) => setAmount(`${(portfolioAmount * 0.01) / +price}`)}>1%</button>
+                </td>
+                <td>
+                  <input type="text" value={price} onChange={(event) => setPrice(event.target.value)} />
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>{side === 'buy' ? 'sell' : 'buy'}</td>
+                <td>{pair}</td>
+                <td>
+                  <input type="text" value={amount1} onChange={(event) => setAmount1(event.target.value)} />
+                </td>
+                <td>
+                  <PriceInput price={price1} setPrice={setPrice1} />
+                </td>
+                <td>
+                  <PercentageInput pct={pct1} setPct={setPct1} />
+                </td>
+              </tr>
+              <tr>
+                <td>{side === 'buy' ? 'sell' : 'buy'}</td>
+                <td>{pair}</td>
+                <td>
+                  <input type="text" value={amount2} onChange={(event) => setAmount2(event.target.value)} />
+                </td>
+                <td>
+                  <PriceInput price={price2} setPrice={setPrice2} />
+                </td>
+                <td>
+                  <PercentageInput pct={pct2} setPct={setPct2} />
+                </td>
+              </tr>
+              <tr>
+                <td>{side === 'buy' ? 'sell' : 'buy'}</td>
+                <td>{pair}</td>
+                <td>
+                  <input type="text" value={amount3} onChange={(event) => setAmount3(event.target.value)} />
+                </td>
+                <td>
+                  <PriceInput price={price3} setPrice={setPrice3} />
+                </td>
+                <td>
+                  <PercentageInput pct={pct3} setPct={setPct3} />
+                </td>
+              </tr>
+              <tr>
+                <td>{side === 'buy' ? 'sell' : 'buy'}</td>
+                <td>{pair}</td>
+                <td>
+                  <input type="text" value={amount4} onChange={(event) => setAmount4(event.target.value)} />
+                </td>
+                <td>
+                  <PriceInput price={price4} setPrice={setPrice4} />
+                </td>
+                <td>
+                  <PercentageInput pct={pct4} setPct={setPct4} />
+                </td>
+              </tr>
+              <tr>
+                <td>{side === 'buy' ? 'sell' : 'buy'}</td>
+                <td>{pair}</td>
+                <td>
+                  <input type="text" value={amount5} onChange={(event) => setAmount5(event.target.value)} />
+                </td>
+                <td>
+                  <PriceInput price={price5} setPrice={setPrice5} />
+                </td>
+                <td>
+                  <PercentageInput pct={pct5} setPct={setPct5} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div className={styles.grid}>
           <div className={styles.card}>
-            <h3>Target 1</h3>
-            {side === 'buy' ? 'sell' : 'buy'}{' '}
-            <label>Percentage:</label>
-            <input type="text" value={pct1} onChange={(event) => setPct1(+event.target.value)}  />
-            <label>Amount:</label>
-            <input type="text" value={amount1} onChange={(event) => setAmount1(+event.target.value)}  />
-            <label> @ Price:</label>
-            <input type="text" value={amount1} onChange={(event) => setPrice1(+event.target.value)}  />
+            <ul>
+              {orders.map((order) => (
+                <li>
+                  {order.side} {order.amount} {order.pair} @ {order.price}
+                </li>
+              ))}
+            </ul>
           </div>
+        </div>
+        <div className={styles.grid}>
           <div className={styles.card} onClick={() => saveOrders()}>
             <button>Submit</button>
           </div>
           <div>
             <code>{JSON.stringify(result)}</code>
           </div>
-        </div>
-        <div className={styles.grid}>
-          {orders.map(order => <div className={styles.card}>
-            {order.side} {order.amount} {order.pair} @ {order.price}
-          </div>)}
         </div>
       </main>
 
