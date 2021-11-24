@@ -91,7 +91,7 @@ const Home: NextPage = () => {
       side,
     });
     setOrders(newOrders);
-  }, [amount, price]);
+  }, [amount, price, pair, pct1, pct2, pct3, pct4, price1, price2, price3, price4, side]);
 
   useEffect(() => {
     const newOrders = Array(5);
@@ -288,7 +288,7 @@ const Home: NextPage = () => {
           <div className={styles.card}>
             <ul>
               {orders.map((order) => (
-                <li>
+                <li key={`${order.side} ${order.amount} ${order.pair} @ ${order.price}`}>
                   {order.side} {order.amount} {order.pair} @ {order.price}
                 </li>
               ))}
