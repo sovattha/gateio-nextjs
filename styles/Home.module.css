@@ -1,3 +1,16 @@
+.table {
+  border: 1px solid #ccc;
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+.tr,
+.th,
+.td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
 .container {
   padding: 0 2rem;
 }
@@ -61,8 +74,7 @@
   border-radius: 5px;
   padding: 0.75rem;
   font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
 .grid {
