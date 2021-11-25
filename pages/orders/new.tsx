@@ -12,8 +12,10 @@ type Order = {
   side: string;
 };
 
+const INITIAL_PORTFOLIO_AMOUNT = 1e4;
+
 const Home: NextPage = () => {
-  const [portfolioAmount, setPortfolioAmount] = useState(0);
+  const [portfolioAmount, setPortfolioAmount] = useState(INITIAL_PORTFOLIO_AMOUNT);
 
   const [pair, setPair] = useState('');
   const [amount, setAmount] = useState('');
@@ -74,14 +76,14 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (price) {
-      if (!price1) setPrice1(`${+price * 2}`);
-      if (!price2) setPrice2(`${+price * 4}`);
-      if (!price3) setPrice3(`${+price * 10}`);
-      if (!price4) setPrice4(`${+price * 20}`);
-      if (!pct1) setPct1('25');
-      if (!pct2) setPct2('25');
-      if (!pct3) setPct3('25');
-      if (!pct4) setPct4('25');
+      setPrice1(`${+price * 2}`);
+      setPrice2(`${+price * 4}`);
+      setPrice3(`${+price * 10}`);
+      setPrice4(`${+price * 20}`);
+      setPct1('25');
+      setPct2('25');
+      setPct3('25');
+      setPct4('25');
     }
     const newOrders = [];
     newOrders.push({
@@ -91,7 +93,7 @@ const Home: NextPage = () => {
       side,
     });
     setOrders(newOrders);
-  }, [amount, price, pair, pct1, pct2, pct3, pct4, price1, price2, price3, price4, side]);
+  }, [amount, price, pair, side]);
 
   useEffect(() => {
     const newOrders = Array(5);
@@ -185,101 +187,108 @@ const Home: NextPage = () => {
         <p className={styles.description}>Create a new order</p>
         <div className={styles.grid}>
           Portfolio amount: <input type="text" value={portfolioAmount} onChange={(event) => setPortfolioAmount(+event.target.value)} />
-          <table>
+          <table className={styles.table}>
             <thead>
-              <tr>
-                <th>Side</th>
-                <th>Pair</th>
-                <th>Amount</th>
-                <th>Price</th>
-                <th>%</th>
+              <tr className={styles.tr}>
+                <th className={styles.th}>Side</th>
+                <th className={styles.th}>Pair</th>
+                <th className={styles.th}>Amount</th>
+                <th className={styles.th}>Price $</th>
+                <th className={styles.th}>%</th>
+                <th className={styles.th}>Total $</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
+              <tr className={styles.tr}>
+                <td className={styles.td}>
                   <select value={side} onChange={(event) => setSide(event.target.value)}>
                     <option value="buy">Buy</option>
                     <option value="sell">Sell</option>
                   </select>
                 </td>
-                <td>
+                <td className={styles.td}>
                   <input type="text" value={pair} onChange={(event) => setPair(event.target.value)} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <input type="text" value={amount} onChange={(event) => setAmount(event.target.value)} />
-                  <button onClick={(event) => setAmount(`${(portfolioAmount * 0.005) / +price}`)}>0.5%</button>
-                  <button onClick={(event) => setAmount(`${(portfolioAmount * 0.01) / +price}`)}>1%</button>
+                  <button onClick={(event) => portfolioAmount && price && setAmount(`${(portfolioAmount * 0.005) / +price}`)}>0.5%</button>
+                  <button onClick={(event) => portfolioAmount && price && setAmount(`${(portfolioAmount * 0.01) / +price}`)}>1%</button>
                 </td>
-                <td>
+                <td className={styles.td}>
                   <input type="text" value={price} onChange={(event) => setPrice(event.target.value)} />
                 </td>
-                <td></td>
+                <td className={styles.td}></td>
+                <td className={styles.td}>{+amount * +price}$</td>
               </tr>
               <tr>
-                <td>{side === 'buy' ? 'sell' : 'buy'}</td>
-                <td>{pair}</td>
-                <td>
+                <td className={styles.td}>{side === 'buy' ? 'sell' : 'buy'}</td>
+                <td className={styles.td}>{pair}</td>
+                <td className={styles.td}>
                   <input type="text" value={amount1} onChange={(event) => setAmount1(event.target.value)} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <PriceInput price={price1} setPrice={setPrice1} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <PercentageInput pct={pct1} setPct={setPct1} />
                 </td>
+                <td className={styles.td}>{+amount1 * +price1}$</td>
               </tr>
               <tr>
-                <td>{side === 'buy' ? 'sell' : 'buy'}</td>
-                <td>{pair}</td>
-                <td>
+                <td className={styles.td}>{side === 'buy' ? 'sell' : 'buy'}</td>
+                <td className={styles.td}>{pair}</td>
+                <td className={styles.td}>
                   <input type="text" value={amount2} onChange={(event) => setAmount2(event.target.value)} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <PriceInput price={price2} setPrice={setPrice2} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <PercentageInput pct={pct2} setPct={setPct2} />
                 </td>
+                <td className={styles.td}>{+amount2 * +price2}$</td>
               </tr>
               <tr>
-                <td>{side === 'buy' ? 'sell' : 'buy'}</td>
-                <td>{pair}</td>
-                <td>
+                <td className={styles.td}>{side === 'buy' ? 'sell' : 'buy'}</td>
+                <td className={styles.td}>{pair}</td>
+                <td className={styles.td}>
                   <input type="text" value={amount3} onChange={(event) => setAmount3(event.target.value)} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <PriceInput price={price3} setPrice={setPrice3} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <PercentageInput pct={pct3} setPct={setPct3} />
                 </td>
+                <td className={styles.td}>{+amount3 * +price3}$</td>
               </tr>
               <tr>
-                <td>{side === 'buy' ? 'sell' : 'buy'}</td>
-                <td>{pair}</td>
-                <td>
+                <td className={styles.td}>{side === 'buy' ? 'sell' : 'buy'}</td>
+                <td className={styles.td}>{pair}</td>
+                <td className={styles.td}>
                   <input type="text" value={amount4} onChange={(event) => setAmount4(event.target.value)} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <PriceInput price={price4} setPrice={setPrice4} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <PercentageInput pct={pct4} setPct={setPct4} />
                 </td>
+                <td className={styles.td}>{+amount4 * +price4}$</td>
               </tr>
               <tr>
-                <td>{side === 'buy' ? 'sell' : 'buy'}</td>
-                <td>{pair}</td>
-                <td>
+                <td className={styles.td}>{side === 'buy' ? 'sell' : 'buy'}</td>
+                <td className={styles.td}>{pair}</td>
+                <td className={styles.td}>
                   <input type="text" value={amount5} onChange={(event) => setAmount5(event.target.value)} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <PriceInput price={price5} setPrice={setPrice5} />
                 </td>
-                <td>
+                <td className={styles.td}>
                   <PercentageInput pct={pct5} setPct={setPct5} />
                 </td>
+                <td className={styles.td}>{+amount5 * +price5}$</td>
               </tr>
             </tbody>
           </table>

@@ -1,3 +1,16 @@
+.table {
+  border: 1px solid #ccc;
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+.tr,
+.th,
+.td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
 .container {
   padding: 0 2rem;
 }
