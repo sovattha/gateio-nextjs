@@ -76,10 +76,10 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (price) {
-      setPrice1(`${+price * 2}`);
-      setPrice2(`${+price * 4}`);
-      setPrice3(`${+price * 10}`);
-      setPrice4(`${+price * 20}`);
+      setPrice1(`${+price * 4}`);
+      setPrice2(`${+price * 10}`);
+      setPrice3(`${+price * 20}`);
+      setPrice4(`${+price * 50}`);
       setPct1('25');
       setPct2('25');
       setPct3('25');
