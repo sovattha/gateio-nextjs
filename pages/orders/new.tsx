@@ -192,8 +192,8 @@ const Home: NextPage = () => {
               <tr className={styles.tr}>
                 <th className={styles.th}>Side</th>
                 <th className={styles.th}>Pair</th>
-                <th className={styles.th}>Amount</th>
                 <th className={styles.th}>Price $</th>
+                <th className={styles.th}>Amount</th>
                 <th className={styles.th}>%</th>
                 <th className={styles.th}>Total $</th>
               </tr>
@@ -210,12 +210,12 @@ const Home: NextPage = () => {
                   <input type="text" value={pair} onChange={(event) => setPair(event.target.value)} />
                 </td>
                 <td className={styles.td}>
+                  <input type="text" value={price} onChange={(event) => setPrice(event.target.value)} />
+                </td>
+                <td className={styles.td}>
                   <input type="text" value={amount} onChange={(event) => setAmount(event.target.value)} />
                   <button onClick={(event) => portfolioAmount && price && setAmount(`${(portfolioAmount * 0.005) / +price}`)}>0.5%</button>
                   <button onClick={(event) => portfolioAmount && price && setAmount(`${(portfolioAmount * 0.01) / +price}`)}>1%</button>
-                </td>
-                <td className={styles.td}>
-                  <input type="text" value={price} onChange={(event) => setPrice(event.target.value)} />
                 </td>
                 <td className={styles.td}></td>
                 <td className={styles.td}>{+amount * +price}$</td>
@@ -224,10 +224,10 @@ const Home: NextPage = () => {
                 <td className={styles.td}>{side === 'buy' ? 'sell' : 'buy'}</td>
                 <td className={styles.td}>{pair}</td>
                 <td className={styles.td}>
-                  <input type="text" value={amount1} onChange={(event) => setAmount1(event.target.value)} />
+                  <PriceInput price={price1} setPrice={setPrice1} />
                 </td>
                 <td className={styles.td}>
-                  <PriceInput price={price1} setPrice={setPrice1} />
+                  <input type="text" value={amount1} onChange={(event) => setAmount1(event.target.value)} />
                 </td>
                 <td className={styles.td}>
                   <PercentageInput pct={pct1} setPct={setPct1} />
@@ -238,10 +238,10 @@ const Home: NextPage = () => {
                 <td className={styles.td}>{side === 'buy' ? 'sell' : 'buy'}</td>
                 <td className={styles.td}>{pair}</td>
                 <td className={styles.td}>
-                  <input type="text" value={amount2} onChange={(event) => setAmount2(event.target.value)} />
+                  <PriceInput price={price2} setPrice={setPrice2} />
                 </td>
                 <td className={styles.td}>
-                  <PriceInput price={price2} setPrice={setPrice2} />
+                  <input type="text" value={amount2} onChange={(event) => setAmount2(event.target.value)} />
                 </td>
                 <td className={styles.td}>
                   <PercentageInput pct={pct2} setPct={setPct2} />
@@ -252,10 +252,10 @@ const Home: NextPage = () => {
                 <td className={styles.td}>{side === 'buy' ? 'sell' : 'buy'}</td>
                 <td className={styles.td}>{pair}</td>
                 <td className={styles.td}>
-                  <input type="text" value={amount3} onChange={(event) => setAmount3(event.target.value)} />
+                  <PriceInput price={price3} setPrice={setPrice3} />
                 </td>
                 <td className={styles.td}>
-                  <PriceInput price={price3} setPrice={setPrice3} />
+                  <input type="text" value={amount3} onChange={(event) => setAmount3(event.target.value)} />
                 </td>
                 <td className={styles.td}>
                   <PercentageInput pct={pct3} setPct={setPct3} />
@@ -266,10 +266,10 @@ const Home: NextPage = () => {
                 <td className={styles.td}>{side === 'buy' ? 'sell' : 'buy'}</td>
                 <td className={styles.td}>{pair}</td>
                 <td className={styles.td}>
-                  <input type="text" value={amount4} onChange={(event) => setAmount4(event.target.value)} />
+                  <PriceInput price={price4} setPrice={setPrice4} />
                 </td>
                 <td className={styles.td}>
-                  <PriceInput price={price4} setPrice={setPrice4} />
+                  <input type="text" value={amount4} onChange={(event) => setAmount4(event.target.value)} />
                 </td>
                 <td className={styles.td}>
                   <PercentageInput pct={pct4} setPct={setPct4} />
@@ -280,10 +280,10 @@ const Home: NextPage = () => {
                 <td className={styles.td}>{side === 'buy' ? 'sell' : 'buy'}</td>
                 <td className={styles.td}>{pair}</td>
                 <td className={styles.td}>
-                  <input type="text" value={amount5} onChange={(event) => setAmount5(event.target.value)} />
+                  <PriceInput price={price5} setPrice={setPrice5} />
                 </td>
                 <td className={styles.td}>
-                  <PriceInput price={price5} setPrice={setPrice5} />
+                  <input type="text" value={amount5} onChange={(event) => setAmount5(event.target.value)} />
                 </td>
                 <td className={styles.td}>
                   <PercentageInput pct={pct5} setPct={setPct5} />
